@@ -1,14 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/jsp/include.jsp"%>
-<html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<base href="<%=basePath%>">
-		<meta name="description" content="overview & stats" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script type="text/javascript">
+	<base href="<%=basePath%>">
+	<script type="text/javascript">
 			$(window.parent.hangge());	
 		</script> 
-</head>
+	<!-- jsp文件头和头部 -->
+	<%@ include file="../admin/top.jsp"%> 
+	
+	</head> 
  
 <body> 
 <div class="container-fluid" id="main-container">
@@ -54,7 +61,7 @@
 						<td>${job.jobId }</td>
 						<td>${job.jobName }</td>
 						<td>${job.jobGroup }</td>
-						<td>${job.jobStatus }
+						<td>
 							<c:choose>
 								<c:when test="${job.jobStatus=='1' }">
 									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" checked="checked" onclick="changeJobStatus('${job.jobId}','stop')" /><span class="lbl"></span></label>
@@ -66,32 +73,30 @@
 						</td>
 						<td>${job.cronExpression }</td>
 						<td>${job.description }</td>
-						<td>${job.isConcurrent }
-							<c:choose>
+						<td><c:choose>
 								<c:when test="${job.isConcurrent=='1' }">
 									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" checked="checked" onclick="changeJobStatus('${job.jobId}','stop')" /><span class="lbl"></span></label>
 								</c:when>
 								<c:otherwise>
 									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" onclick="changeJobStatus('${job.jobId}','start')" /><span class="lbl"></span></label>
 								</c:otherwise>
-							</c:choose>
-						</td>
+							</c:choose></td>
 						<td>${job.beanClass }</td>
 						<td>${job.springId }</td>
 						<td>${job.methodName }</td>
-						<td><a href="javascript:;" onclick="updateCron('${job.jobId}')">更新cron</a></td>
+						<td><a href="javascript:;" onclick="updateCron('${job.jobId}')">cron</a></td>
 					</tr>
 				</c:forEach>
 				<tr>
 					<td>n</td>
-					<td><input type="text" name="jobName" id="jobName"></input></td>
+					<td><input type="text" name="jobName" id="jobName" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
 					<td><input type="text" name="jobGroup" id="jobGroup" style="width:30px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
-					<td>0<input type="hidden" name="jobStatus" value="0"></input></td>
-					<td><input type="text" name="cronExpression" id="cronExpression"></input></td>
-					<td><input type="text" name="description" id="description"></input></td>
-					<td>0<input type="hidden" name="isConcurrent" value="0"></input></td>
-					<td><input type="text" name="beanClass" id="beanClass"></input></td>
-					<td><input type="text" name="springId" id="springId"></input></td>
+					<td>0<input type="hidden" name="jobStatus" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"value="0"></input></td>
+					<td><input type="text" name="cronExpression" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"id="cronExpression"></input></td>
+					<td><input type="text" name="description" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="description"></input></td>
+					<td>0<input type="hidden" name="isConcurrent" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" value="0"></input></td>
+					<td><input type="text" name="beanClass" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="beanClass"></input></td>
+					<td><input type="text" name="springId" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="springId"></input></td>
 					<td><input type="text" name="methodName" id="methodName" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
 					<td><input type="button" onclick="add()" value="保存" /></td>
 				</tr>

@@ -6,6 +6,8 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/task
+						http://www.springframework.org/schema/task/spring-task.xsd
 						http://www.springframework.org/schema/aop 
 						http://www.springframework.org/schema/aop/spring-aop.xsd
 						http://www.springframework.org/schema/context 
@@ -39,7 +41,7 @@
 	
 	<!-- quartz配置 -->
     <bean id="springUtils" class="com.tbetl.util.spring.SpringUtils" ></bean> 
-	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" ></bean> 
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" ></bean> 
 	
 	<!-- 阿里 druid数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">  

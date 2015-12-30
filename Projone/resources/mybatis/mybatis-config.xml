@@ -13,6 +13,7 @@
 		<typeAlias type="com.tbetl.entity.system.User" alias="User"/>
 		<typeAlias type="com.tbetl.entity.system.Role" alias="Role"/>
 		<typeAlias type="com.tbetl.entity.system.Menu" alias="Menu"/>
+		<typeAlias type="com.tbetl.entity.system.ScheduleJob" alias="ScheduleJob"/>
 		<typeAlias type="com.tbetl.util.PageData" alias="pd"/>
 		
 		
@@ -42,6 +43,8 @@
 		<mapper resource="mybatis/system/AppuserMapper.xml"/>
 		<!-- 数据字典 -->
 		<mapper resource="mybatis/system/ZidianMapper.xml"/>
+		<!-- 定时任务 -->
+		<mapper resource="mybatis/system/ScheduleJobMapper.xml"/>
 		<!-- 系统模块    结束 -->
 		
 	</mappers>

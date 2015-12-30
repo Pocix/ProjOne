@@ -5,6 +5,8 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <title>${pd.SYSNAME}</title>
+<meta name="description" content="overview & stats" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- basic styles -->
 <link href="<%=path%>/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<%=path%>/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -18,14 +20,16 @@
 <link rel="stylesheet" href="<%=path%>/css/chosen.css" />
 
 <!-- ace styles -->
-<link rel="stylesheet" href="<%=path%>/css/ace-skins.min.css" />
-<link rel="stylesheet" href="<%=path%>/css/ace-responsive.min.css" />
 <link rel="stylesheet" href="<%=path%>/css/ace.min.css" />
+<link rel="stylesheet" href="<%=path%>/css/ace-responsive.min.css" />
+<link rel="stylesheet" href="<%=path%>/css/ace-skins.min.css" />
 <!--[if lt IE 9]>
   <link rel="stylesheet" href="css/ace-ie.min.css" />
 <![endif]-->
 
 <link rel="stylesheet" href="<%=path%>/css/datepicker.css" />
+
+<script src="<%=path%>/js/jquery-1.7.2.js"></script>
 
 <!--Dialog start-->
 <script type="text/javascript" src="<%=path%>/js/attention/zDialog/zDrag.js"></script>
@@ -33,7 +37,6 @@
 <!--Dialog end-->
 
 <!-- <script type="text/javascript" src="<%=path%>/js/jquery-1.9.1.min.js"></script>  -->
-<script src="<%=path%>/js/jquery-1.7.2.js"></script>
 <script src="<%=path%>/js/ace-elements.min.js"></script>
 
 <script src="<%=path%>/js/bootstrap.min.js"></script>

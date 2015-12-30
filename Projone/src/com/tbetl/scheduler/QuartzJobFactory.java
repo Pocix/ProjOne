@@ -5,6 +5,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.tbetl.entity.system.ScheduleJob;
+
 /**
  * 
  * @Description: 计划任务执行处 无状态

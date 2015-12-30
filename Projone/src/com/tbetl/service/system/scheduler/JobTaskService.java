@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
@@ -24,9 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import com.tbetl.dao.DaoSupport;
+import com.tbetl.entity.system.ScheduleJob;
 import com.tbetl.scheduler.QuartzJobFactory;
 import com.tbetl.scheduler.QuartzJobFactoryDisallowConcurrentExecution;
-import com.tbetl.scheduler.ScheduleJob;
 
 /**
  * 
@@ -41,22 +43,22 @@ public class JobTaskService {
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
 
+	@Resource(name = "daoSupport")
+	private DaoSupport dao;
+	
 	/**
 	 * 从数据库中取 区别于getAllJob
 	 * 
 	 * @return
 	 */
 	public List<ScheduleJob> getAllTask() {
-		List<ScheduleJob> list = new ArrayList<ScheduleJob>();
-		ScheduleJob s = new ScheduleJob();
-		s.setBeanClass("");
-		s.setCreateTime(new Date());
-		s.setDescription("ssss");
-		s.setJobId(12L);
-		s.setJobName("ssss");
-		list.add(s);
-//		return scheduleJobMapper.getAll();
-		return list;
+		try {
+			return (List<ScheduleJob>) dao.findForList("ScheduleJobMapper.getAll", null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -64,14 +66,24 @@ public class JobTaskService {
 	 */
 	public void addTask(ScheduleJob job) {
 		job.setCreateTime(new Date());
-//		scheduleJobMapper.insertSelective(job);
+		try {
+			dao.save("ScheduleJobMapper.insertSelective", job);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * 从数据库中查询job
 	 */
 	public ScheduleJob getTaskById(Long jobId) {
-//		return scheduleJobMapper.selectByPrimaryKey(jobId);
+		try {
+			return (ScheduleJob) dao.findForObject("ScheduleJobMapper.selectByPrimaryKey", jobId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -92,7 +104,12 @@ public class JobTaskService {
 			job.setJobStatus(ScheduleJob.STATUS_RUNNING);
 			addJob(job);
 		}
-//		scheduleJobMapper.updateByPrimaryKeySelective(job);
+		try {
+			dao.update("ScheduleJobMapper.updateByPrimaryKeySelective", job);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -109,7 +126,12 @@ public class JobTaskService {
 		if (ScheduleJob.STATUS_RUNNING.equals(job.getJobStatus())) {
 			updateJobCron(job);
 		}
-//		scheduleJobMapper.updateByPrimaryKeySelective(job);
+		try {
+			dao.update("ScheduleJobMapper.updateByPrimaryKeySelective", job);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -155,18 +177,18 @@ public class JobTaskService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() throws Exception {
 
-//		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
 		// 这里获取任务信息数据
-//		List<ScheduleJob> jobList = scheduleJobMapper.getAll();
-//		List<ScheduleJob> jobList = null;
-//	
-//		for (ScheduleJob job : jobList) {
-//			addJob(job);
-//		}
+		List<ScheduleJob> jobList = (List<ScheduleJob>) dao.findForList("ScheduleJobMapper.getAll", null);
+	
+		for (ScheduleJob job : jobList) {
+			addJob(job);
+		}
 	}
 
 	/**

@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ScheduleJobMapper">
-	<resultMap id="BaseResultMap" type="com.tbetl.scheduler.ScheduleJob">
+	<resultMap id="BaseResultMap" type="ScheduleJob">
 		<id column="job_id" property="jobId" jdbcType="BIGINT" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="job_name" property="jobName" jdbcType="VARCHAR" />
 		<result column="job_group" property="jobGroup" jdbcType="VARCHAR" />
 		<result column="job_status" property="jobStatus" jdbcType="VARCHAR" />
-		<result column="cron_expression" property="cronExpression"
-			jdbcType="VARCHAR" />
+		<result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
 		<result column="description" property="description" jdbcType="VARCHAR" />
 		<result column="bean_class" property="beanClass" jdbcType="VARCHAR" />
-		<result column="is_concurrent" property="isConcurrent"
-			jdbcType="VARCHAR" />
+		<result column="is_concurrent" property="isConcurrent" jdbcType="VARCHAR" />
 		<result column="spring_id" property="springId" jdbcType="VARCHAR" />
 		<result column="method_name" property="methodName" jdbcType="VARCHAR" />
 	</resultMap>
@@ -26,15 +24,15 @@
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
-		from task_schedule_job
+		from sys_schedule_job
 		where job_id = #{jobId,jdbcType=BIGINT}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from task_schedule_job
+		delete from sys_schedule_job
 		where job_id = #{jobId,jdbcType=BIGINT}
 	</delete>
-	<insert id="insert" parameterType="com.tbetl.scheduler.ScheduleJob">
-		insert into task_schedule_job (job_id, create_time, update_time,
+	<insert id="insert" parameterType="ScheduleJob">
+		insert into sys_schedule_job (job_id, create_time, update_time,
 		job_name, job_group, job_status,
 		cron_expression, description, bean_class,
 		is_concurrent, spring_id, method_name
@@ -47,8 +45,8 @@
 		#{isConcurrent,jdbcType=VARCHAR}, #{springId,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.tbetl.scheduler.ScheduleJob">
-		insert into task_schedule_job
+	<insert id="insertSelective" parameterType="ScheduleJob">
+		insert into sys_schedule_job
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="jobId != null">
 				job_id,
@@ -126,8 +124,8 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.tbetl.scheduler.ScheduleJob">
-		update task_schedule_job
+	<update id="updateByPrimaryKeySelective" parameterType="ScheduleJob">
+		update sys_schedule_job
 		<set>
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -165,8 +163,8 @@
 		</set>
 		where job_id = #{jobId,jdbcType=BIGINT}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.tbetl.scheduler.ScheduleJob">
-		update task_schedule_job
+	<update id="updateByPrimaryKey" parameterType="ScheduleJob">
+		update sys_schedule_job
 		set create_time = #{createTime,jdbcType=TIMESTAMP},
 		update_time = #{updateTime,jdbcType=TIMESTAMP},
 		job_name = #{jobName,jdbcType=VARCHAR},
@@ -183,6 +181,6 @@
 	<select id="getAll" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from task_schedule_job
+		from sys_schedule_job
 	</select>
 </mapper>
