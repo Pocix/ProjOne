@@ -19,7 +19,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.tbetl.entity.business.Product;
+import com.tbetl.entity.business.TMProduct;
 
 /**
  * <code>{@link TMHtmlUnit}</code>
@@ -36,7 +36,7 @@ public class TMHtmlUnit {
 	public static final String REF_TM_DETAIL_PROMOPRICE="J_PromoPrice";//促销价
 	public static final String REF_TM_DETAIL_POSTAGETOGGLECONT="J_PostageToggleCont";//运费
 	public static final String REF_TM_DETAIL_SS="J_SaleCombo";//月销量
-	public static final String REF_TM_DETAIL_ITEMRATES="J_ItemRates";//送天猫积分
+	public static final String REF_TM_DETAIL_ITEMRATES="J_ItemRates";//送天猫积分 但实际获取的为累计总评价
 	public static final String REF_TM_DETAIL_EMSTOCK="J_EmStock";//库存
 	public static final String REF_TM_DETAIL_COLLECTCOUNT="J_CollectCount";//收藏商品
 	public static final String REF_TM_DETAIL_ATTRLIST="J_AttrList";//产品参数
@@ -65,22 +65,29 @@ public class TMHtmlUnit {
 		tbhu.init();
 //		String url = "https://yifengshangsp.tmall.com";
 		String url = "https://baihuasp.tmall.com";
-		Product pro = new Product();
-		tbhu.translateForTM("http://detail.tmall.com/item.htm?id=42332489806&rn=0925e05b7a955d6d68d30d7ab5b52a3e&abbucket=1",pro);
-//		System.out.println(tbhu.taobaoCodeSrc(url+tbhu.SEARCHALL));
-//		List<Product> list = tbhu.getProList2shop(url+tbhu.getDetailListUrl2shop(url+tbhu.SEARCHALL));
-//		if(list != null){
-//			for(Product pro : list){
-//				System.out.println(pro.url);
-//				tbhu.translateForTaob(tbhu.translateForTM(pro.url),pro);
-//				System.out.println("name:"+pro.getName());
-//				System.out.println("price:"+pro.getPrice());
-//				System.out.println("tbprice:"+pro.getTbprice());
-//				System.out.println("tradeCount:"+pro.getTradeCount());
-//				System.out.println("evaluateCount:"+pro.getEvaluateCount());
-//				System.out.println("trove:"+pro.getTrove());
-//			}
-//		}
+		TMProduct pro = new TMProduct();
+		pro.setUrl("http://detail.tmall.com/item.htm?id=42332489806&rn=0925e05b7a955d6d68d30d7ab5b52a3e&abbucket=1");
+		tbhu.translateForTM(pro.url,pro);
+		System.out.println("name:"+pro.getName());
+		System.out.println("price:"+pro.getPrice());
+		System.out.println("tbprice:"+pro.getTbprice());
+		System.out.println("tradeCount:"+pro.getTradeCountForM());
+		System.out.println("evaluateCount:"+pro.getEvaluateCount());
+		System.out.println("trove:"+pro.getTrove());
+		/*
+		List<TMProduct> list = tbhu.getProList2shop(url+tbhu.getDetailListUrl2shop(url+tbhu.SEARCHALL));
+		if(list != null){
+			for(TMProduct pro : list){
+				tbhu.translateForTM(pro.url,pro);
+				System.out.println("name:"+pro.getName());
+				System.out.println("price:"+pro.getPrice());
+				System.out.println("tbprice:"+pro.getTbprice());
+				System.out.println("tradeCount:"+pro.getTradeCount());
+				System.out.println("evaluateCount:"+pro.getEvaluateCount());
+				System.out.println("trove:"+pro.getTrove());
+			}
+		}
+		*/
 		tbhu.destroy();
 	}
 
@@ -99,7 +106,7 @@ public class TMHtmlUnit {
 		return page.getElementById(REF_TM_DETAIL_URL).getAttribute("value");
 	}
 	
-	public List<Product> getProList2shop(String url) throws Exception{
+	public List<TMProduct> getProList2shop(String url) throws Exception{
 
 		// 模拟浏览器打开一个目标网址
 		final HtmlPage page = webClient.getPage(url);
@@ -108,7 +115,7 @@ public class TMHtmlUnit {
 		webClient.setJavaScriptTimeout(0);
 		
 		List<HtmlAnchor> achList=page.getAnchors();
-		List<Product> listPro = new ArrayList<Product>();
+		List<TMProduct> listPro = new ArrayList<TMProduct>();
 		//TODO There has repeat url !!!
 		Set<String> urlSet = new HashSet<String>();
 		for(HtmlAnchor ach:achList){
@@ -118,7 +125,7 @@ public class TMHtmlUnit {
 		}
 		
 		for(String _tmp : urlSet){
-			Product pro = new Product();
+			TMProduct pro = new TMProduct();
 			pro.url = _tmp;
 			listPro.add(pro);
 		}
@@ -133,7 +140,7 @@ public class TMHtmlUnit {
 	 * @return
 	 * @throws Exception
 	 */
-	public String translateForTM(String url,Product pro) throws Exception {
+	public String translateForTM(String url,TMProduct pro) throws Exception {
 		try {
 			// 模拟浏览器打开一个目标网址
 			this.init();
@@ -141,69 +148,26 @@ public class TMHtmlUnit {
 			// 该方法在getPage()方法之后调用才能生效
 			webClient.waitForBackgroundJavaScript(1000 * 3);
 			webClient.setJavaScriptTimeout(0);
-			
-			System.out.println(page.getTitleText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_STRPRICE).asText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_PROMOPRICE).asText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_POSTAGETOGGLECONT).asText());
-			for(DomElement e : page.getElementsByTagName("li")){
-				if(e.getAttributes().getNamedItem("data-label") != null){
-					System.out.println(e.asText());
+			if(pro != null){
+				pro.setName(page.getTitleText());
+				pro.setPrice(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_STRPRICE).asText()).replaceAll(""));
+				pro.setTbprice(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_PROMOPRICE).asText()).replaceAll(""));
+				pro.setPostageToggleCont(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_POSTAGETOGGLECONT).asText()).replaceAll(""));
+				for(DomElement e : page.getElementsByTagName("li")){
+					if(e.getAttributes().getNamedItem("data-label") != null){
+						pro.setTradeCountForM(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(e.asText()).replaceAll(""));
+					}
 				}
+				pro.setEvaluateCount(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_ITEMRATES).asText()).replaceAll(""));
+				pro.setEmStock(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_EMSTOCK).asText()).replaceAll(""));
+				pro.setTrove(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_COLLECTCOUNT).asText()).replaceAll(""));
+				pro.setRemark((page.getHtmlElementById(REF_TM_DETAIL_ATTRLIST).asText()));
+				 
 			}
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_ITEMRATES).asText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_EMSTOCK).asText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_COLLECTCOUNT).asText());
-			System.out.println(page.getHtmlElementById(REF_TM_DETAIL_ATTRLIST).asText());
 		} catch (Exception e) {
 			System.out.println("Exception:"+e.getCause());
 		}
 		return null;
-	}
-	
-	public void translateForTM1(String str,Product pro){
-		try{
-			StringReader sr = new StringReader(str);
-			BufferedReader br=new BufferedReader(sr);
-			pro.setRemark(str);
-			String previous = "";
-			boolean isNext = false;
-			String tmp = "";
-			int idx = 0;
-			while((tmp = br.readLine()) != null){
-				tmp = tmp.trim();
-				if(idx == 0){
-					pro.setName(tmp);
-					idx = -1;
-				}
-				if(tmp.split("收藏宝贝").length > 1){
-					pro.setTrove(Pattern.compile("[^0-9]").matcher(tmp).replaceAll(""));
-				}else if("价格".equals(tmp)){
-					previous = tmp;
-					isNext = true;
-				}else if("价格".equals(previous) && isNext){
-					pro.setPrice(Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$").matcher(tmp).replaceAll(""));
-					isNext = false;
-					previous = "";
-				}else if("淘宝价".equals(tmp)){
-					previous = tmp;
-					isNext = true;
-				}else if("淘宝价".equals(previous) && isNext){
-					pro.setTbprice(Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$").matcher(tmp).replaceAll(""));
-					isNext = false;
-					previous = "";
-				}else if(tmp.split("累计评论").length > 1){
-					pro.setEvaluateCount(Pattern.compile("[^0-9]").matcher(tmp).replaceAll(""));
-				}else if(tmp.split("最近30天成交记录").length > 1){
-					pro.setTradeCountFor30(Pattern.compile("[^0-9]").matcher(tmp.split("最近30天成交记录")[1]).replaceAll(""));
-				}else if(tmp.split("成交记录").length > 1){
-					pro.setTradeCount(Pattern.compile("[^0-9]").matcher(tmp).replaceAll(""));
-				}
-			}
-			
-		}catch(Exception e){
-			
-		}
 	}
 	
 }

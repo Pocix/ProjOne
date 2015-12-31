@@ -19,6 +19,9 @@
 		
 		<!-- 分页 -->
 		<typeAlias type="com.tbetl.entity.Page" alias="Page"/>
+		
+		<!-- 业务类映射 -->
+		<typeAlias type="com.tbetl.entity.business.ShopItem" alias="ShopItem"/>
 	</typeAliases>
 	
 	<plugins>
@@ -47,6 +50,11 @@
 		<mapper resource="mybatis/system/ScheduleJobMapper.xml"/>
 		<!-- 系统模块    结束 -->
 		
+		
+		<!-- 业务模块    开始 -->
+		<!-- 系统用户 -->
+		<mapper resource="mybatis/business/ShopItemMapper.xml"/>
+		<!-- 业务模块    结束 -->
 	</mappers>
 	
 </configuration>

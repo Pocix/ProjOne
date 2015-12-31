@@ -6,18 +6,18 @@
 package com.tbetl.entity.business;
 
 /**
- * <code>{@link Product}</code>
+ * <code>{@link TMProduct}</code>
  *
  * TODO : document me
  *
  * @author Administrator
  * @description TBcollection表
  */
-public class Product{
+public class TMProduct{
 
 	private String name;
 	
-	private String typelv1;
+	private String typeuid;
 	
 	private String createdate;
 	
@@ -29,7 +29,7 @@ public class Product{
 	 */
 	private String price;
 	/**
-	 * 淘宝价
+	 * 促销价
 	 */
 	private String tbprice;
 	/**
@@ -44,7 +44,30 @@ public class Product{
 	 * 成交记录
 	 */
 	private String tradeCount;
-	
+	/**
+	 * 运费
+	 */
+	private String postageToggleCont;
+	/**
+	 * 积分
+	 */
+	private String itemRates;
+	/**
+	 * 库存
+	 */
+	private String emStock;
+	/**
+	 * 月销量
+	 */
+	public String tradeCountForM;
+	/**
+	 * 当日销量
+	 */
+	public String tradeCountForD;
+	/**
+	 * 链接
+	 */
+	public String url;
 	/**
 	 * @return the name
 	 */
@@ -174,15 +197,15 @@ public class Product{
 	/**
 	 * @return the tradeCountFor30
 	 */
-	public String getTradeCountFor30() {
-		return tradeCountFor30;
+	public String getTradeCountForM() {
+		return tradeCountForM;
 	}
 
 	/**
 	 * @param tradeCountFor30 the tradeCountFor30 to set
 	 */
-	public void setTradeCountFor30(String tradeCountFor30) {
-		this.tradeCountFor30 = tradeCountFor30;
+	public void setTradeCountForM(String tradeCountForM) {
+		this.tradeCountForM = tradeCountForM;
 	}
 
 	/**
@@ -199,7 +222,43 @@ public class Product{
 		this.url = url;
 	}
 
-	public String tradeCountFor30;
-	
-	public String url;
+	public String getPostageToggleCont() {
+		return postageToggleCont;
+	}
+
+	public void setPostageToggleCont(String postageToggleCont) {
+		this.postageToggleCont = postageToggleCont;
+	}
+
+	public String getItemRates() {
+		return itemRates;
+	}
+
+	public void setItemRates(String itemRates) {
+		this.itemRates = itemRates;
+	}
+
+	public String getEmStock() {
+		return emStock;
+	}
+
+	public void setEmStock(String emStock) {
+		this.emStock = emStock;
+	}
+
+	public String getTypeuid() {
+		return typeuid;
+	}
+
+	public void setTypelv1(String typeuid) {
+		this.typeuid = typeuid;
+	}
+
+	public String getTradeCountForD() {
+		return tradeCountForD;
+	}
+
+	public void setTradeCountForD(String tradeCountForD) {
+		this.tradeCountForD = tradeCountForD;
+	}
 }

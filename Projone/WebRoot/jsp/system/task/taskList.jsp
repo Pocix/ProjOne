@@ -180,7 +180,7 @@ $(window.parent.hangge());
 			async : false,
 			dataType : "JSON",
 			cache : false,
-			url : "${basePath}task/changeJobStatus.htm",
+			url : "${basePath}task/changeJobStatus.do",
 			data : {
 				jobId : jobId,
 				cmd : cmd

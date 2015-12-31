@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ShopItemMapper">
+	
+	<!-- ================================================================================================== -->
+	<resultMap type="ShopItem" id="shopItemResultMap">
+		<id column="SID" property="uid"/>
+		<result column="NAME" property="name"/>
+		<result column="STATUS" property="status"/>
+		<result column="CREATETIME" property="createtime"/>
+		<result column="EFFECTIVEDATE" property="effectivedate"/>
+		<result column="URL" property="url"/>
+		<result column="IS_INTASK" property="is_intask"/>
+		<result column="P_SID" property="p_id"/>
+	</resultMap>
+	
+	<resultMap type="ShopItem" id="shopResultMap">
+		<id column="SID" property="uid"/>
+		<result column="NAME" property="name"/>
+		<result column="STATUS" property="status"/>
+		<result column="CREATETIME" property="createtime"/>
+		<result column="EFFECTIVEDATE" property="effectivedate"/>
+		<result column="URL" property="url"/>
+		<result column="IS_INTASK" property="is_intask"/>
+		<result column="USER_UID" property="user_uid"/>
+	</resultMap>
+	
+	<select id="getAllShop" parameterType="ShopItem" resultType="shopResultMap">
+		select * from b_shop 
+		where 1=1
+		<if test="user_uid != null">
+	  	and	"USER_UID" = #{user_uid} 
+		</if>
+		<if test="is_intask != null">
+	  	and	"IS_INTASK" = #{is_intask} 
+		</if>
+		<if test="effectivedate != null">
+	  	and	"EFFECTIVEDATE" >= convert(date, #{effectivedate}, 120)
+		</if>
+	</select>
+	
+	<!-- ================================================================================================== -->
+	
+</mapper>
