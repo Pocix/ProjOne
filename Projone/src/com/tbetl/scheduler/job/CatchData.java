@@ -24,10 +24,6 @@ import com.tbetl.util.TMHtmlUnit;
 @Repository("catchData")
 public class CatchData extends AbstractJob{
 
-	TMHtmlUnit tmunit;
-	
-	
-	
 	public CatchData() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -36,7 +32,8 @@ public class CatchData extends AbstractJob{
 	 * 
 	 */
 	public void catchShopItem(){
-		tmunit = new TMHtmlUnit();
+		TMHtmlUnit tmunit = new TMHtmlUnit();
+		tmunit.init();
 		ShopItem shop = new ShopItem();
 		shop.setEffectivedate(new Date());
 		shop.setIs_intask("1");

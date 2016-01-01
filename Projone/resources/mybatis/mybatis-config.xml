@@ -16,12 +16,12 @@
 		<typeAlias type="com.tbetl.entity.system.ScheduleJob" alias="ScheduleJob"/>
 		<typeAlias type="com.tbetl.util.PageData" alias="pd"/>
 		
+		<!-- 业务类映射 -->
+		<typeAlias type="com.tbetl.entity.business.ShopItem" alias="ShopItem"/>
 		
 		<!-- 分页 -->
 		<typeAlias type="com.tbetl.entity.Page" alias="Page"/>
 		
-		<!-- 业务类映射 -->
-		<typeAlias type="com.tbetl.entity.business.ShopItem" alias="ShopItem"/>
 	</typeAliases>
 	
 	<plugins>

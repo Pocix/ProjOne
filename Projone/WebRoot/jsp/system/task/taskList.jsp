@@ -207,7 +207,7 @@ $(window.parent.hangge());
 				async : false,
 				dataType : "JSON",
 				cache : false,
-				url : "${basePath}task/updateCron.htm",
+				url : "${basePath}task/updateCron.do",
 				data : {
 					jobId : jobId,
 					cron : cron
