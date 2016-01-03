@@ -35,13 +35,15 @@
                  <value>/WEB-INF/classes/dbconfig.properties</value> 
                  <value>/WEB-INF/classes/mongodb.properties</value> 
                  <value>/WEB-INF/classes/redis.properties</value> 
+                 <value>/WEB-INF/classes/threadPool.properties</value> 
             </list>  
         </property>  
 	</bean> 
 	
 	<!-- quartz配置 -->
     <bean id="springUtils" class="com.tbetl.util.spring.SpringUtils" ></bean> 
-	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" ></bean> 
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
+	</bean> 
 	
 	<!-- 阿里 druid数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">  
@@ -75,6 +77,17 @@
          <!-- 关闭abanded连接时输出错误日志 -->   
          <property name="logAbandoned" value="${logAbandoned}" />
 	</bean>  
+	
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >  
+    <!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="${pool.corePoolSize}" />  
+		    <!-- 线程池维护线程所允许的空闲时间 -->  
+		<property name="keepAliveSeconds" value="${pool.keepAliveSeconds}" />  
+		    <!-- 线程池维护线程的最大数量 -->  
+		<property name="maxPoolSize" value="${pool.maxPoolSize}" />  
+		    <!-- 线程池所使用的缓冲队列 -->  
+		<property name="queueCapacity" value="${pool.queueCapacity}" />  
+	</bean>
 	
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
@@ -142,8 +155,9 @@
 			</property>
 		</bean>
 	<!-- ================ Shiro end ================ -->
-	
+	<!-- 
 	<import resource="MongodbContext.xml"/>
+	 -->
 	<!-- 引入同文件夹下的redis属性配置文件 -->
     <import resource="RedisContext.xml"/>
 	

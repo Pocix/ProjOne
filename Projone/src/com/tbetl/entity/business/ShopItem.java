@@ -11,9 +11,16 @@ public class ShopItem {
 	private Date effectivedate;
 	private String url;
 	private String is_intask;
-	private String p_id;
+	private String p_uid;
 	private String user_uid;
+	private String is_init;
 	
+	public String getIs_init() {
+		return is_init;
+	}
+	public void setIs_init(String is_init) {
+		this.is_init = is_init;
+	}
 	public String getUser_uid() {
 		return user_uid;
 	}
@@ -62,10 +69,10 @@ public class ShopItem {
 	public void setIs_intask(String is_intask) {
 		this.is_intask = is_intask;
 	}
-	public String getP_id() {
-		return p_id;
+	public String getP_uid() {
+		return p_uid;
 	}
-	public void setP_id(String p_id) {
-		this.p_id = p_id;
+	public void setP_uid(String p_uid) {
+		this.p_uid = p_uid;
 	}
 }

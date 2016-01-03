@@ -18,6 +18,7 @@
 		
 		<!-- 业务类映射 -->
 		<typeAlias type="com.tbetl.entity.business.ShopItem" alias="ShopItem"/>
+		<typeAlias type="com.tbetl.entity.business.TMProduct" alias="TMProduct"/>
 		
 		<!-- 分页 -->
 		<typeAlias type="com.tbetl.entity.Page" alias="Page"/>
@@ -52,8 +53,10 @@
 		
 		
 		<!-- 业务模块    开始 -->
-		<!-- 系统用户 -->
+		<!-- 商品信息 -->
 		<mapper resource="mybatis/business/ShopItemMapper.xml"/>
+		<!-- 销售信息 -->
+		<mapper resource="mybatis/business/TMProductMapper.xml"/>
 		<!-- 业务模块    结束 -->
 	</mappers>
 	

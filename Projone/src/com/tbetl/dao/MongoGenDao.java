@@ -19,7 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public abstract class MongoGenDao<T> {
 	
-	@Resource(name = "mongoTemplate")
+	//@Resource(name = "mongoTemplate")
 	protected MongoTemplate mongoTemplate;
 
 	/**

@@ -5,11 +5,11 @@
  */
 package com.tbetl.util;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -64,21 +64,23 @@ public class TMHtmlUnit {
 		TMHtmlUnit tbhu = new TMHtmlUnit();
 		tbhu.init();
 //		String url = "https://yifengshangsp.tmall.com";
-		String url = "https://baihuasp.tmall.com";
+//		String url = "https://baihuasp.tmall.com";
+		/**/
 		TMProduct pro = new TMProduct();
-		pro.setUrl("http://detail.tmall.com/item.htm?id=42332489806&rn=0925e05b7a955d6d68d30d7ab5b52a3e&abbucket=1");
-		tbhu.translateForTM(pro.url,pro);
+		pro.setUrl("https://detail.tmall.com/item.htm?id=45353225588&rn=1b6baec6e46f3c732851ea6c2566eb82");
+		tbhu.translateForTM(pro.getUrl(),pro);
 		System.out.println("name:"+pro.getName());
 		System.out.println("price:"+pro.getPrice());
 		System.out.println("tbprice:"+pro.getTbprice());
 		System.out.println("tradeCount:"+pro.getTradeCountForM());
 		System.out.println("evaluateCount:"+pro.getEvaluateCount());
 		System.out.println("trove:"+pro.getTrove());
+		
 		/*
-		List<TMProduct> list = tbhu.getProList2shop(url+tbhu.getDetailListUrl2shop(url+tbhu.SEARCHALL));
+		List<TMProduct> list = tbhu.getProList2shop(tbhu.getDetailListUrl2shop(url));
 		if(list != null){
 			for(TMProduct pro : list){
-				tbhu.translateForTM(pro.url,pro);
+				tbhu.translateForTM(pro.getUrl(),pro);
 				System.out.println("name:"+pro.getName());
 				System.out.println("price:"+pro.getPrice());
 				System.out.println("tbprice:"+pro.getTbprice());
@@ -98,12 +100,22 @@ public class TMHtmlUnit {
 	 * @throws Exception
 	 */
 	public String getDetailListUrl2shop(String url) throws Exception{
+		// 模拟一个浏览器
+		webClient = new WebClient(BrowserVersion.CHROME);
+		
+		// 设置webClient的相关参数
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		webClient.getOptions().setJavaScriptEnabled(false);
+		webClient.getOptions().setActiveXNative(false);
+		webClient.getOptions().setCssEnabled(false);
+		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 		// 模拟浏览器打开一个目标网址
-		final HtmlPage page = webClient.getPage(url);
+		final HtmlPage page = webClient.getPage(url+SEARCHALL);
 		// 该方法在getPage()方法之后调用才能生效
 		webClient.waitForBackgroundJavaScript(1000 * 3);
 		webClient.setJavaScriptTimeout(0);
-		return page.getElementById(REF_TM_DETAIL_URL).getAttribute("value");
+		return url+page.getElementById(REF_TM_DETAIL_URL).getAttribute("value");
 	}
 	
 	public List<TMProduct> getProList2shop(String url) throws Exception{
@@ -117,16 +129,16 @@ public class TMHtmlUnit {
 		List<HtmlAnchor> achList=page.getAnchors();
 		List<TMProduct> listPro = new ArrayList<TMProduct>();
 		//TODO There has repeat url !!!
-		Set<String> urlSet = new HashSet<String>();
+		Map<String,String> map = new HashMap<String,String>();
 		for(HtmlAnchor ach:achList){
 			if(ach.getHrefAttribute().split("detail.tmall.com/item.htm").length >1 && ach.getTextContent().trim() != null && "".equals(ach.getTextContent().trim())){
-				urlSet.add("http:"+ach.getHrefAttribute().substring(1).replaceAll("\"", ""));
+				map.put(ach.getHrefAttribute().split("&")[0].substring(ach.getHrefAttribute().split("&")[0].indexOf("id=")+3),"http:"+ach.getHrefAttribute().substring(1).replaceAll("\"", ""));
 			}
 		}
 		
-		for(String _tmp : urlSet){
+		for(String _tmp : map.keySet()){
 			TMProduct pro = new TMProduct();
-			pro.url = _tmp;
+			pro.setUrl(map.get(_tmp));
 			listPro.add(pro);
 		}
 		webClient.close();
@@ -142,8 +154,6 @@ public class TMHtmlUnit {
 	 */
 	public String translateForTM(String url,TMProduct pro) throws Exception {
 		try {
-			// 模拟浏览器打开一个目标网址
-			this.init();
 			final HtmlPage page = webClient.getPage(url);
 			// 该方法在getPage()方法之后调用才能生效
 			webClient.waitForBackgroundJavaScript(1000 * 3);

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TMProductMapper">
+	
+	<!-- ================================================================================================== -->
+	<resultMap type="TMProduct" id="TMProductResultMap">
+		<id column="UID" property="uid"/>
+		<result column="NAME" property="name"/>
+		<result column="PID" property="pid"/>
+		<result column="CREATEDATE" property="createdate"/>
+		<result column="REMARK" property="remark"/>
+		<result column="PRICE" property="price"/>
+		<result column="TBPRICE" property="tbprice"/>
+		<result column="TROVE" property="trove"/>
+		<result column="EVALUATECOUNT" property="evaluateCount"/>
+		<result column="TRADECOUNT" property="tradeCount"/>
+		<result column="POSTAGETOGGLECOUNT" property="postageToggleCont"/>
+		<result column="ITEMRATES" property="itemRates"/>
+		<result column="TRADECOUNTFORM" property="tradeCountForM"/>
+		<result column="TRADECOUNTFORD" property="tradeCountForD"/>
+		<result column="EMSTOCK" property="emStock"/>
+		<result column="URL" property="url"/>
+	</resultMap>
+	
+	<insert id="saveItem" parameterType="TMProduct">
+		insert into b_pro_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid != null">uid,</if>
+			<if test="name != null">name,</if>
+			<if test="pid != null">pid,</if>
+			<if test="createtime != null">createtime,</if>
+			<if test="remark != null">remark,</if>
+			<if test="price != null">price,</if>
+			<if test="tbprice != null">tbprice,</if>
+			<if test="trove != null">trove,</if>
+			<if test="evaluateCount != null">evaluateCount,</if>
+			<if test="tradeCount != null">tradeCount,</if>
+			<if test="postageToggleCont != null">postageToggleCont,</if>
+			<if test="itemRates != null">itemRates,</if>
+			<if test="tradeCountForM != null">tradeCountForM,</if>
+			<if test="tradeCountForD != null">tradeCountForD,</if>
+			<if test="emStock != null">emStock,</if>
+			<if test="url != null">url,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uid != null">#{uid},</if>
+			<if test="name != null">#{name},</if>
+			<if test="pid != null">#{pid},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="price != null">#{price},</if>
+			<if test="tbprice != null">#{tbprice},</if>
+			<if test="trove != null">#{trove},</if>
+			<if test="evaluateCount != null">#{evaluateCount},</if>
+			<if test="tradeCount != null">#{tradeCount},</if>
+			<if test="postageToggleCont != null">#{postageToggleCont},</if>
+			<if test="itemRates != null">#{itemRates},</if>
+			<if test="tradeCountForM != null">#{tradeCountForM},</if>
+			<if test="tradeCountForD != null">#{tradeCountForD},</if>
+			<if test="emStock != null">#{emStock},</if>
+			<if test="url != null">#{url},</if>
+		</trim>
+	</insert>
+	
+	<update id="updInitStatus" parameterType="ShopItem">
+		update b_shop set 
+			is_init=#{is_init}
+		where is_init=0
+	</update>
+	<!-- ================================================================================================== -->
+	
+</mapper>

@@ -15,62 +15,34 @@ package com.tbetl.entity.business;
  */
 public class TMProduct{
 
+	private String uid;
 	private String name;
-	
-	private String typeuid;
-	
+	private String pid;
 	private String createdate;
-	
 	private String remark;
-	
-	private String sales;
-	/**
-	 * 销售价
-	 */
+	/** 销售价 */
 	private String price;
-	/**
-	 * 促销价
-	 */
+	/** 促销价*/
 	private String tbprice;
-	/**
-	 * 收藏
-	 */
+	/** 收藏 */
 	private String trove;
-	/**
-	 * 累计评价
-	 */
+	/** 累计评价 */
 	private String evaluateCount;
-	/**
-	 * 成交记录
-	 */
+	/** 成交记录 */
 	private String tradeCount;
-	/**
-	 * 运费
-	 */
+	/**  运费 */
 	private String postageToggleCont;
-	/**
-	 * 积分
-	 */
+	/** 积分 */
 	private String itemRates;
-	/**
-	 * 库存
-	 */
+	/**  库存 */
 	private String emStock;
-	/**
-	 * 月销量
-	 */
-	public String tradeCountForM;
-	/**
-	 * 当日销量
-	 */
-	public String tradeCountForD;
-	/**
-	 * 链接
-	 */
-	public String url;
-	/**
-	 * @return the name
-	 */
+	/** 月销量 */
+	private String tradeCountForM;
+	/** 当日销量 */
+	private String tradeCountForD;
+	/** 链接 */
+	private String url;
+
 	public String getName() {
 		return name;
 	}
@@ -108,20 +80,6 @@ public class TMProduct{
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	/**
-	 * @return the sales
-	 */
-	public String getSales() {
-		return sales;
-	}
-
-	/**
-	 * @param sales the sales to set
-	 */
-	public void setSales(String sales) {
-		this.sales = sales;
 	}
 
 	/**
@@ -246,19 +204,27 @@ public class TMProduct{
 		this.emStock = emStock;
 	}
 
-	public String getTypeuid() {
-		return typeuid;
-	}
-
-	public void setTypelv1(String typeuid) {
-		this.typeuid = typeuid;
-	}
-
 	public String getTradeCountForD() {
 		return tradeCountForD;
 	}
 
 	public void setTradeCountForD(String tradeCountForD) {
 		this.tradeCountForD = tradeCountForD;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
 	}
 }

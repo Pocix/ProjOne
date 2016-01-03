@@ -5,18 +5,19 @@
 	
 	<!-- ================================================================================================== -->
 	<resultMap type="ShopItem" id="shopItemResultMap">
-		<id column="SID" property="uid"/>
+		<id column="UID" property="uid"/>
 		<result column="NAME" property="name"/>
 		<result column="STATUS" property="status"/>
 		<result column="CREATETIME" property="createtime"/>
 		<result column="EFFECTIVEDATE" property="effectivedate"/>
 		<result column="URL" property="url"/>
 		<result column="IS_INTASK" property="is_intask"/>
-		<result column="P_SID" property="p_id"/>
+		<result column="IS_INIT" property="is_init"/>
+		<result column="P_UID" property="p_uid"/>
 	</resultMap>
 	
 	<resultMap type="ShopItem" id="shopResultMap">
-		<id column="SID" property="uid"/>
+		<id column="UID" property="uid"/>
 		<result column="NAME" property="name"/>
 		<result column="STATUS" property="status"/>
 		<result column="CREATETIME" property="createtime"/>
@@ -30,16 +31,91 @@
 		select * from b_shop 
 		where 1=1
 		<if test="user_uid != null">
-	  	and	"USER_UID" = #{user_uid} 
+	  	and	USER_UID = #{user_uid} 
 		</if>
 		<if test="is_intask != null">
-	  	and	"IS_INTASK" = #{is_intask} 
+	  	and	IS_INTASK = #{is_intask} 
 		</if>
 		<if test="effectivedate != null">
-	  	and	"EFFECTIVEDATE" >= convert(date, #{effectivedate}, 120)
+	  	and	EFFECTIVEDATE >= convert(#{effectivedate}, date)
+		</if>
+		<if test="is_init != null">
+	  	and	IS_INIT = #{is_init} 
 		</if>
 	</select>
 	
+	<select id="getAllShopItem" parameterType="ShopItem" resultMap="shopResultMap">
+		select * from b_shop_item 
+		where 1=1
+		<if test="p_uid != null">
+	  	and	P_UID = #{p_uid} 
+		</if>
+		<if test="is_intask != null">
+	  	and	IS_INTASK = #{is_intask} 
+		</if>
+	</select>
+	
+	<insert id="saveItem" parameterType="ShopItem">
+		insert into b_shop_item
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="effectivedate != null">
+				effectivedate,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="is_intask != null">
+				is_intask,
+			</if>
+			<if test="p_uid != null">
+				p_uid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				#{uid,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="effectivedate != null">
+				#{effectivedate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="is_intask != null">
+				#{is_intask,jdbcType=VARCHAR},
+			</if>
+			<if test="p_uid != null">
+				#{p_uid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updInitStatus" parameterType="ShopItem">
+		update b_shop set 
+			is_init=#{is_init}
+		where is_init=0
+	</update>
 	<!-- ================================================================================================== -->
 	
 </mapper>
