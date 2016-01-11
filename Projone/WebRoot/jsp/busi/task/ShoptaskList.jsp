@@ -44,60 +44,51 @@
 				<tr>
 					<th style="width: 20xp">id</th>
 					<th>name</th>
-					<th>URL</th>
 					<th>状态</th>
 					<th>开始日期</th>
 					<th>截止日期</th>
 					<th>同步</th>
 					<th>是否已初始化</th>
-					<th>操作</th>
+					<th>URL</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="pro" items="${productList}">
+				<c:forEach var="pro" items="${shopList}">
 					<tr>
-						<td>${pro.jobId }</td>
-						<td>${job.jobName }</td>
-						<td>${job.jobGroup }</td>
+						<td>${pro.uid }</td>
+						<td>${pro.name }</td>
 						<td>
 							<c:choose>
-								<c:when test="${job.jobStatus=='1' }">
-									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" checked="checked" onclick="changeJobStatus('${job.jobId}','stop')" /><span class="lbl"></span></label>
+								<c:when test="${pro.status=='1' }">
+									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${pro.uid}" checked="checked" onclick="changeStatus('${pro.uid}','0','status')" /><span class="lbl"></span></label>
 								</c:when>
 								<c:otherwise>
-									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" onclick="changeJobStatus('${job.jobId}','start')" /><span class="lbl"></span></label>
+									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${pro.uid}" onclick="changeStatus('${pro.uid}','1','status')" /><span class="lbl"></span></label>
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>${job.cronExpression }</td>
-						<td>${job.description }</td>
+						<td><fmt:formatDate  value="${pro.createtime }" type="date" /></td>
+						<td><fmt:formatDate  value="${pro.effectivedate }" type="date" /></td>
 						<td><c:choose>
-								<c:when test="${job.isConcurrent=='1' }">
-									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" checked="checked" onclick="changeJobStatus('${job.jobId}','stop')" /><span class="lbl"></span></label>
+								<c:when test="${pro.is_intask=='1' }">
+									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${pro.uid}" checked="checked" onclick="changeStatus('${pro.uid}','0','intask')" /><span class="lbl"></span></label>
 								</c:when>
 								<c:otherwise>
-									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${job.jobId}" onclick="changeJobStatus('${job.jobId}','start')" /><span class="lbl"></span></label>
+									<label><input type="checkbox" class="ace-switch ace-switch-3" id="qx1${pro.uid}" onclick="changeStatus('${pro.uid}','1','intask')" /><span class="lbl"></span></label>
 								</c:otherwise>
 							</c:choose></td>
-						<td>${job.beanClass }</td>
-						<td>${job.springId }</td>
-						<td>${job.methodName }</td>
-						<td><a href="javascript:;" onclick="updateCron('${job.jobId}')">cron</a></td>
+						<td>
+						<c:choose>
+								<c:when test="${pro.is_init=='1' }">
+									<label><span class="icon-ok"></span></label>
+								</c:when>
+								<c:otherwise>
+									<label><span class="icon-bolt"></span></label>
+								</c:otherwise>
+							</c:choose></td>
+						<td>${pro.url }</td>
 					</tr>
 				</c:forEach>
-				<tr>
-					<td>n</td>
-					<td><input type="text" name="jobName" id="jobName" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
-					<td><input type="text" name="jobGroup" id="jobGroup" style="width:30px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
-					<td>0<input type="hidden" name="jobStatus" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"value="0"></input></td>
-					<td><input type="text" name="cronExpression" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"id="cronExpression"></input></td>
-					<td><input type="text" name="description" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="description"></input></td>
-					<td>0<input type="hidden" name="isConcurrent" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" value="0"></input></td>
-					<td><input type="text" name="beanClass" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="beanClass"></input></td>
-					<td><input type="text" name="springId" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;" id="springId"></input></td>
-					<td><input type="text" name="methodName" id="methodName" style="width:120px;height:100%;text-align:center; padding-top: 0px;padding-bottom: 0px;"></input></td>
-					<td><input type="button" onclick="add()" value="保存" /></td>
-				</tr>
 			</tbody>
 		</table>
 	</form>
@@ -120,73 +111,22 @@
 </a>
 <script>
 $(window.parent.hangge());
-	function validateAdd() {
-		if ($.trim($('#jobName').val()) == '') {
-			alert('name不能为空！');
-			$('#jobName').focus();
-			return false;
-		}
-		if ($.trim($('#jobGroup').val()) == '') {
-			alert('group不能为空！');
-			$('#jobGroup').focus();
-			return false;
-		}
-		if ($.trim($('#cronExpression').val()) == '') {
-			alert('cron表达式不能为空！');
-			$('#cronExpression').focus();
-			return false;
-		}
-		if ($.trim($('#beanClass').val()) == '' && $.trim($('#springId').val()) == '') {
-			$('#beanClass').focus();
-			alert('类路径和spring id至少填写一个');
-			return false;
-		}
-		if ($.trim($('#methodName').val()) == '') {
-			$('#methodName').focus();
-			alert('方法名不能为空！');
-			return false;
-		}
-		return true;
-	}
-	function add() {
-		if (validateAdd()) {
-			showWaitMsg();
-			$.ajax({
-				type : "POST",
-				async : false,
-				dataType : "JSON",
-				cache : false,
-				url : "${basePath}task/add.do",
-				data : $("#addForm").serialize(),
-				success : function(data) {
-					hideWaitMsg();
-					if (data.flag) {
-
-						location.reload();
-					} else {
-						alert(data.msg);
-					}
-
-				}//end-callback
-			});//end-ajax
-		}
-	}
-	function changeJobStatus(jobId, cmd) {
+	function changeStatus(uid, cmd, type) {
 		showWaitMsg();
 		$.ajax({
 			type : "POST",
 			async : false,
 			dataType : "JSON",
 			cache : false,
-			url : "${basePath}task/changeJobStatus.do",
+			url : "${basePath}saler/updStatus.do",
 			data : {
-				jobId : jobId,
-				cmd : cmd
+				uid : uid,
+				cmd : cmd,
+				type : type
 			},
 			success : function(data) {
 				hideWaitMsg();
 				if (data.flag) {
-
 					location.reload();
 				} else {
 					alert(data.msg);
@@ -194,35 +134,6 @@ $(window.parent.hangge());
 
 			}//end-callback
 		});//end-ajax
-	}
-	function updateCron(jobId) {
-		var cron = prompt("输入cron表达式！", "")
-		if (cron) {
-			showWaitMsg();
-
-			$.ajax({
-				type : "POST",
-				async : false,
-				dataType : "JSON",
-				cache : false,
-				url : "${basePath}task/updateCron.htm",
-				data : {
-					jobId : jobId,
-					cron : cron
-				},
-				success : function(data) {
-					hideWaitMsg();
-					if (data.flag) {
-
-						location.reload();
-					} else {
-						alert(data.msg);
-					}
-
-				}//end-callback
-			});//end-ajax
-		}
-
 	}
 	function showWaitMsg() {
 		window.parent.jzts();
