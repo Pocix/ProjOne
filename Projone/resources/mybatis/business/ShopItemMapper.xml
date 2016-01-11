@@ -116,6 +116,17 @@
 			is_init=#{is_init}
 		where is_init=0
 	</update>
+	
+	<update id="updStatus" parameterType="ShopItem">
+		update b_shop set 
+			<if test="status != null">
+				status = #{status}
+			</if>
+			<if test="is_intask != null">
+				is_intask = #{is_intask}
+			</if>
+		where uid=#{uid}
+	</update>
 	<!-- ================================================================================================== -->
 	
 </mapper>
