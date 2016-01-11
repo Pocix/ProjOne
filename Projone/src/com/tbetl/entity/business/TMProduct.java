@@ -83,6 +83,20 @@ public class TMProduct{
 	}
 
 	/**
+	 * @return the sales
+	 */
+	public String getPid() {
+		return pid;
+	}
+
+	/**
+	 * @param sales the sales to set
+	 */
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	/**
 	 * @return the price
 	 */
 	public String getPrice() {
@@ -218,13 +232,5 @@ public class TMProduct{
 
 	public void setUid(String uid) {
 		this.uid = uid;
-	}
-
-	public String getPid() {
-		return pid;
-	}
-
-	public void setPid(String pid) {
-		this.pid = pid;
 	}
 }

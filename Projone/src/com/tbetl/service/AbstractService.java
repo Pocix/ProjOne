@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.tbetl.dao.DaoSupport;
 import com.tbetl.dao.DaoSupport2Mongo;
 
 /**
@@ -25,4 +26,7 @@ public abstract class AbstractService {
 	
 	@Resource(name="daoSupport2Mongo")
 	protected DaoSupport2Mongo dao2mongo;
+	
+	@Resource(name = "daoSupport")
+	protected DaoSupport dao;
 }

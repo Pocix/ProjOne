@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tbetl.controller.base.BaseController;
 import com.tbetl.service.business.salerAnalysis.SalerAnalysisServ;
+import com.tbetl.util.PageData;
 
 /**
  * <code>{@link SalerAnalyseCtr}</code>
@@ -28,11 +29,11 @@ public class SalerAnalyseCtr extends BaseController{
 	@Resource(name="salerAnalysisServ")
 	private SalerAnalysisServ salerAnalysisSev;
 
-	@RequestMapping(value="/Test_default")
-	public ModelAndView queryAllProduct(){
+	@RequestMapping(value="/queryAllPro")
+	public ModelAndView queryAllPro(PageData pd){
 		ModelAndView mv = this.getModelAndView();
-		mv.addObject("productList", salerAnalysisSev.queryAllProduct());
-		mv.setViewName("busi/productList");
+		mv.addObject("productList", salerAnalysisSev.queryAllProduct(getCurrentUser()));
+		mv.setViewName("busi/task/ShoptaskList");
 		return mv;
 	}
 }

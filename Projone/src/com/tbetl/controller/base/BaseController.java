@@ -3,11 +3,16 @@ package com.tbetl.controller.base;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tbetl.entity.Page;
+import com.tbetl.entity.system.User;
+import com.tbetl.util.Const;
 import com.tbetl.util.Logger;
 import com.tbetl.util.PageData;
 import com.tbetl.util.UuidUtil;
@@ -56,6 +61,12 @@ public class BaseController {
 	public Page getPage(){
 		
 		return new Page();
+	}
+	
+	public User getCurrentUser(){
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		return (User) session.getAttribute(Const.SESSION_USER);
 	}
 	
 	public static void logBefore(Logger logger, String interfaceName){

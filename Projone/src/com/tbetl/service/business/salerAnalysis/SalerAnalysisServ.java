@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tbetl.entity.business.Product;
+import com.tbetl.entity.business.TMProduct;
+import com.tbetl.entity.system.User;
 import com.tbetl.service.AbstractService;
 
 /**
@@ -22,7 +24,17 @@ import com.tbetl.service.AbstractService;
 @Service("salerAnalysisServ")
 public class SalerAnalysisServ extends AbstractService{
 
-	public List<Product> queryAllProduct(){
+	public List<Product> testQueryAllProduct(){
 		return dao2mongo.queryALLPro();
+	}
+	
+	public List<TMProduct> queryAllProduct(User u){
+		try {
+			return (List<TMProduct>) dao.findForList("", null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
