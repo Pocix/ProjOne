@@ -15,7 +15,7 @@
 		<result column="TROVE" property="trove"/>
 		<result column="EVALUATECOUNT" property="evaluateCount"/>
 		<result column="TRADECOUNT" property="tradeCount"/>
-		<result column="POSTAGETOGGLECOUNT" property="postageToggleCont"/>
+		<result column="POSTAGETOGGLECOUNT" property="postageToggleCount"/>
 		<result column="ITEMRATES" property="itemRates"/>
 		<result column="TRADECOUNTFORM" property="tradeCountForM"/>
 		<result column="TRADECOUNTFORD" property="tradeCountForD"/>
@@ -29,14 +29,14 @@
 			<if test="uid != null">uid,</if>
 			<if test="name != null">name,</if>
 			<if test="pid != null">pid,</if>
-			<if test="createtime != null">createtime,</if>
+			<if test="createdate != null">createdate,</if>
 			<if test="remark != null">remark,</if>
 			<if test="price != null">price,</if>
 			<if test="tbprice != null">tbprice,</if>
 			<if test="trove != null">trove,</if>
 			<if test="evaluateCount != null">evaluateCount,</if>
 			<if test="tradeCount != null">tradeCount,</if>
-			<if test="postageToggleCont != null">postageToggleCont,</if>
+			<if test="postageToggleCount != null">postageToggleCount,</if>
 			<if test="itemRates != null">itemRates,</if>
 			<if test="tradeCountForM != null">tradeCountForM,</if>
 			<if test="tradeCountForD != null">tradeCountForD,</if>
@@ -47,14 +47,14 @@
 			<if test="uid != null">#{uid},</if>
 			<if test="name != null">#{name},</if>
 			<if test="pid != null">#{pid},</if>
-			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="createdate != null">#{createdate,jdbcType=TIMESTAMP},</if>
 			<if test="remark != null">#{remark},</if>
 			<if test="price != null">#{price},</if>
 			<if test="tbprice != null">#{tbprice},</if>
 			<if test="trove != null">#{trove},</if>
 			<if test="evaluateCount != null">#{evaluateCount},</if>
 			<if test="tradeCount != null">#{tradeCount},</if>
-			<if test="postageToggleCont != null">#{postageToggleCont},</if>
+			<if test="postageToggleCount != null">#{postageToggleCount},</if>
 			<if test="itemRates != null">#{itemRates},</if>
 			<if test="tradeCountForM != null">#{tradeCountForM},</if>
 			<if test="tradeCountForD != null">#{tradeCountForD},</if>

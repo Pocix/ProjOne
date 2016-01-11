@@ -14,6 +14,7 @@ public class ShopItem {
 	private String p_uid;
 	private String user_uid;
 	private String is_init;
+	private String intaskThreadId;
 	
 	public String getIs_init() {
 		return is_init;
@@ -74,5 +75,11 @@ public class ShopItem {
 	}
 	public void setP_uid(String p_uid) {
 		this.p_uid = p_uid;
+	}
+	public String getIntaskThreadId() {
+		return intaskThreadId;
+	}
+	public void setIntaskThreadId(String intaskThreadId) {
+		this.intaskThreadId = intaskThreadId;
 	}
 }

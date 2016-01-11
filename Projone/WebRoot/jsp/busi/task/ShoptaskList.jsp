@@ -14,7 +14,6 @@
 	<script type="text/javascript">
 		$(function(){
 			window.parent.hangge();
-			alert(1);
 			var myChart = echarts.init(document.getElementById('main'));
 			option = {
 				    title : {

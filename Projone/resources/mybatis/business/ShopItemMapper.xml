@@ -25,6 +25,7 @@
 		<result column="URL" property="url"/>
 		<result column="IS_INTASK" property="is_intask"/>
 		<result column="USER_UID" property="user_uid"/>
+		<result column="INTASKTHREADID" property="intaskThreadId"/>
 	</resultMap>
 	
 	<select id="getAllShop" parameterType="ShopItem" resultMap="shopResultMap">
@@ -42,6 +43,9 @@
 		<if test="is_init != null">
 	  	and	IS_INIT = #{is_init} 
 		</if>
+		<if test="intaskThreadId != null">
+	  	and	INTASKTHREADID=#{intaskThreadId}
+		</if>
 	</select>
 	
 	<select id="getAllShopItem" parameterType="ShopItem" resultMap="shopResultMap">
@@ -49,6 +53,9 @@
 		where 1=1
 		<if test="p_uid != null">
 	  	and	P_UID = #{p_uid} 
+		</if>
+		<if test="status != null">
+	  	and	STATUS = #{status} 
 		</if>
 		<if test="is_intask != null">
 	  	and	IS_INTASK = #{is_intask} 
@@ -110,11 +117,31 @@
 			</if>
 		</trim>
 	</insert>
-	
+	<!-- 初始化数据 -->
 	<update id="updInitStatus" parameterType="ShopItem">
 		update b_shop set 
 			is_init=#{is_init}
 		where is_init=0
+	</update>
+	
+	<!-- 更新任务线程状态:占用 -->
+	<update id="updThreadStatusIn" parameterType="ShopItem">
+		update b_shop set 
+			intaskThreadId=#{intaskThreadId}
+		where intaskThreadId is null
+		<if test="uid != null">
+		and	uid = #{uid}
+		</if>
+	</update>
+	
+	<!-- 更新任务线程状态：空闲-->
+	<update id="updThreadStatusOut" parameterType="ShopItem">
+		update b_shop set 
+			intaskThreadId = null
+		where 1=1
+		<if test="intaskThreadId != null">
+		and	intaskThreadId = #{intaskThreadId}
+		</if>
 	</update>
 	
 	<update id="updStatus" parameterType="ShopItem">

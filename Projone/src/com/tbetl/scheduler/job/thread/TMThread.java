@@ -72,18 +72,32 @@ public class TMThread extends AbstractThread{
 				try {
 					if(item != null){
 						System.out.println("获取销售数据:\n任务执行开始........");
-						List<TMProduct> listp = tmunit.getProList2shop(tmunit.getDetailListUrl2shop(item.getUrl()));
-						for(TMProduct p : listp){
-							tmunit.translateForTM(p.getUrl(), p);
-							p.setPid(item.getUid());
-							getDao().save("TMProductMapper.saveItem", p);
+						List<ShopItem> listp = getAllItem(item);
+						for(ShopItem p : listp){
+							TMProduct pro = new TMProduct();
+							pro.setUrl(p.getUrl());
+							pro.setPid(p.getUid());
+							pro.setUid(get32UUID());
+							tmunit.translateForTM(pro.getUrl(), pro);
+							pro.setName(p.getName());
+							getDao().save("TMProductMapper.saveItem", pro);
 						}
-
+						ShopItem s = new ShopItem();
+						s.setIntaskThreadId(this.hashCode()+"");
+						Integer msg = (Integer) getDao().update("ShopItemMapper.updThreadStatusOut", s);
+						if(msg == 0){
+							throw new Exception("未能更新数据:\n"+"\tShopId:"+s.getIntaskThreadId());
+						}
 						System.out.println("任务执行结束........");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	}
+	
+	private List<ShopItem> getAllItem(ShopItem shop) throws Exception{
+		shop.setP_uid(shop.getUid());
+		return (List<ShopItem>) getDao().findForList("ShopItemMapper.getAllShopItem", shop);
 	}
 }

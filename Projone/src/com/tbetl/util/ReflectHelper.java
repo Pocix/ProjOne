@@ -1,6 +1,10 @@
 package com.tbetl.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Administrator
@@ -73,4 +77,43 @@ public class ReflectHelper {
 			field.setAccessible(false);
 		}
 	}
+	
+	/**
+	 * 清空实体属性值
+	 * @param obj
+	 */
+	public static void setObjectFieldsEmpty(Object obj) {  
+        // 对obj反射  
+        Class objClass = obj.getClass();  
+        Method[] objmethods = objClass.getDeclaredMethods();  
+        Map objMeMap = new HashMap();  
+        for (int i = 0; i < objmethods.length; i++) {  
+            Method method = objmethods[i];  
+            objMeMap.put(method.getName(), method);  
+        }  
+        for (int i = 0; i < objmethods.length; i++) {  
+            {  
+                String methodName = objmethods[i].getName();  
+                if (methodName != null && methodName.startsWith("get")) {  
+                    try {  
+                        Object returnObj = objmethods[i].invoke(obj,  
+                                new Object[0]);  
+                        Method setmethod = (Method) objMeMap.get("set"  
+                                + methodName.split("get")[1]);  
+                        if (returnObj != null) {  
+                            returnObj = null;  
+                        }  
+                        setmethod.invoke(obj, returnObj);  
+                    } catch (IllegalArgumentException e) {  
+                        e.printStackTrace();  
+                    } catch (IllegalAccessException e) {  
+                        e.printStackTrace();  
+                    } catch (InvocationTargetException e) {  
+                        e.printStackTrace();  
+                    }  
+                }  
+            }  
+  
+        }  
+    } 
 }

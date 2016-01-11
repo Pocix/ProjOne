@@ -31,7 +31,7 @@ public class TMProduct{
 	/** 成交记录 */
 	private String tradeCount;
 	/**  运费 */
-	private String postageToggleCont;
+	private String postageToggleCount;
 	/** 积分 */
 	private String itemRates;
 	/**  库存 */
@@ -194,12 +194,12 @@ public class TMProduct{
 		this.url = url;
 	}
 
-	public String getPostageToggleCont() {
-		return postageToggleCont;
+	public String getPostageToggleCount() {
+		return postageToggleCount;
 	}
 
-	public void setPostageToggleCont(String postageToggleCont) {
-		this.postageToggleCont = postageToggleCont;
+	public void setPostageToggleCont(String postageToggleCount) {
+		this.postageToggleCount = postageToggleCount;
 	}
 
 	public String getItemRates() {

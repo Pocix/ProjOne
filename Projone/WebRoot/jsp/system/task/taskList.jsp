@@ -84,7 +84,7 @@
 						<td>${job.beanClass }</td>
 						<td>${job.springId }</td>
 						<td>${job.methodName }</td>
-						<td><a href="javascript:;" onclick="updateCron('${job.jobId}')">cron</a></td>
+						<td><a href="javascript:;" onclick="updateCron('${job.jobId}','${job.cronExpression }')">cron</a></td>
 					</tr>
 				</c:forEach>
 				<tr>
@@ -197,8 +197,8 @@ $(window.parent.hangge());
 			}//end-callback
 		});//end-ajax
 	}
-	function updateCron(jobId) {
-		var cron = prompt("输入cron表达式！", "")
+	function updateCron(jobId,cron_tmp) {
+		var cron = prompt("输入cron表达式！", cron_tmp);
 		if (cron) {
 			showWaitMsg();
 
