@@ -13,7 +13,7 @@
 			$(window.parent.hangge());	
 		</script> 
 	<!-- jsp文件头和头部 -->
-	<%@ include file="../admin/top.jsp"%> 
+	<%@ include file="/jsp/top.jsp"%> 
 	
 	</head> 
  
@@ -24,7 +24,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i><a>系统管理</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">调度任务管理</li>
+		<li class="active">帐号调度任务</li>
 	</ul><!--.breadcrumb-->
 	
 	</div><!--#breadcrumbs-->
@@ -44,21 +44,19 @@
 				<tr>
 					<th style="width: 20xp">id</th>
 					<th>name</th>
-					<th>group</th>
+					<th>URL</th>
 					<th>状态</th>
-					<th>cron表达式</th>
-					<th>描述</th>
-					<th>同步否</th>
-					<th>类路径</th>
-					<th>spring id</th>
-					<th>方法名</th>
+					<th>开始日期</th>
+					<th>截止日期</th>
+					<th>同步</th>
+					<th>是否已初始化</th>
 					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="job" items="${taskList}">
+				<c:forEach var="pro" items="${productList}">
 					<tr>
-						<td>${job.jobId }</td>
+						<td>${pro.jobId }</td>
 						<td>${job.jobName }</td>
 						<td>${job.jobGroup }</td>
 						<td>
@@ -207,7 +205,7 @@ $(window.parent.hangge());
 				async : false,
 				dataType : "JSON",
 				cache : false,
-				url : "${basePath}task/updateCron.do",
+				url : "${basePath}task/updateCron.htm",
 				data : {
 					jobId : jobId,
 					cron : cron
