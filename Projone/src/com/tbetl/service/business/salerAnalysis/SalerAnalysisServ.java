@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tbetl.entity.business.Product;
+import com.tbetl.entity.business.ShopItem;
 import com.tbetl.entity.business.TMProduct;
 import com.tbetl.entity.system.User;
 import com.tbetl.service.AbstractService;
@@ -28,13 +29,17 @@ public class SalerAnalysisServ extends AbstractService{
 		return dao2mongo.queryALLPro();
 	}
 	
-	public List<TMProduct> queryAllProduct(User u){
+	public List<ShopItem> queryAllProduct(ShopItem item){
 		try {
-			return (List<TMProduct>) dao.findForList("", null);
+			return (List<ShopItem>) dao.findForList("ShopItemMapper.getAllShop", item);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void changeStatus(ShopItem item) throws Exception{
+		dao.update("ShopItemMapper.updStatus", item);
 	}
 }

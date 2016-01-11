@@ -1,4 +1,4 @@
-package com.tbetl.scheduler;
+package com.tbetl.entity;
 
 public class RetObj {
 	private boolean flag = true;

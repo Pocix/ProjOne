@@ -6,12 +6,17 @@
 package com.tbetl.controller.business.salerAnalysis;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.quartz.SchedulerException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tbetl.controller.base.BaseController;
+import com.tbetl.entity.RetObj;
+import com.tbetl.entity.business.ShopItem;
 import com.tbetl.service.business.salerAnalysis.SalerAnalysisServ;
 import com.tbetl.util.PageData;
 
@@ -30,10 +35,36 @@ public class SalerAnalyseCtr extends BaseController{
 	private SalerAnalysisServ salerAnalysisSev;
 
 	@RequestMapping(value="/queryAllPro")
-	public ModelAndView queryAllPro(PageData pd){
+	public ModelAndView queryAllPro(){
 		ModelAndView mv = this.getModelAndView();
-		mv.addObject("productList", salerAnalysisSev.queryAllProduct(getCurrentUser()));
+		ShopItem item = new ShopItem();
+		item.setUser_uid(getCurrentUser().getUSER_ID());
+		mv.addObject("shopList", salerAnalysisSev.queryAllProduct(item));
 		mv.setViewName("busi/task/ShoptaskList");
 		return mv;
+	}
+	
+	@RequestMapping(value="/updStatus")
+	@ResponseBody
+	public RetObj updStatus(HttpServletRequest request, String uid, String cmd,String type){
+		RetObj retObj = new RetObj();
+		retObj.setFlag(false);
+		try {
+			ShopItem item = new ShopItem();
+			item.setUser_uid(getCurrentUser().getUSER_ID());
+			item.setUid(uid);
+			if("status".equals(type)){
+				item.setStatus(cmd);
+			}
+			if("intask".equals(type)){
+				item.setIs_intask(cmd);
+			}
+			salerAnalysisSev.changeStatus(item);
+		} catch (Exception e) {
+			retObj.setMsg("任务状态改变失败！");
+			return retObj;
+		}
+		retObj.setFlag(true);
+		return retObj;
 	}
 }
