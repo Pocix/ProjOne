@@ -150,7 +150,7 @@ public class TMHtmlUnit {
 	 * @return
 	 * @throws Exception
 	 */
-	public String translateForTM(String url,TMProduct pro) throws Exception {
+	public void translateForTM(String url,TMProduct pro) throws Exception {
 		try {
 			final HtmlPage page = webClient.getPage(url);
 			// 该方法在getPage()方法之后调用才能生效
@@ -160,7 +160,7 @@ public class TMHtmlUnit {
 				pro.setName(page.getTitleText());
 				pro.setPrice(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_STRPRICE).asText()).replaceAll(""));
 				pro.setTbprice(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_PROMOPRICE).asText()).replaceAll(""));
-				pro.setPostageToggleCont(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_POSTAGETOGGLECONT).asText()).replaceAll(""));
+				pro.setPostageToggleCount(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(page.getHtmlElementById(REF_TM_DETAIL_POSTAGETOGGLECONT).asText()).replaceAll(""));
 				for(DomElement e : page.getElementsByTagName("li")){
 					if(e.getAttributes().getNamedItem("data-label") != null){
 						pro.setTradeCountForM(Pattern.compile("[\u00A5-\u9fa5]|\\（*\\）|\\s\\n").matcher(e.asText()).replaceAll(""));
@@ -175,7 +175,6 @@ public class TMHtmlUnit {
 		} catch (Exception e) {
 			System.out.println("Exception:"+e.getCause());
 		}
-		return null;
 	}
 	
 }
