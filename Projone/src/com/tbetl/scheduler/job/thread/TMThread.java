@@ -75,11 +75,19 @@ public class TMThread extends AbstractThread{
 						List<ShopItem> listp = getAllItem(item);
 						for(ShopItem p : listp){
 							TMProduct pro = new TMProduct();
-							pro.setUrl(p.getUrl());
+							Date d = new Date();
 							pro.setPid(p.getUid());
 							pro.setUid(get32UUID());
-							tmunit.translateForTM(pro.getUrl(), pro);
+							tmunit.translateForTM(p.getUrl(), pro);
 							pro.setName(p.getName());
+							pro.setUrl(p.getUrl());
+							pro.setCreatedate(d);
+							pro.setYear(d.getYear()+"");
+							pro.setMonth(d.getMonth()+"");
+							pro.setDay(d.getDay()+"");
+							pro.setHour(d.getHours()+"");
+							pro.setMinutes(d.getMinutes()+"");
+							pro.setSecond(d.getSeconds()+"");
 							getDao().save("TMProductMapper.saveItem", pro);
 						}
 						ShopItem s = new ShopItem();

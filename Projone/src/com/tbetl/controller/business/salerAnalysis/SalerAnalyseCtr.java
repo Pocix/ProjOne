@@ -39,7 +39,7 @@ public class SalerAnalyseCtr extends BaseController{
 		ModelAndView mv = this.getModelAndView();
 		ShopItem item = new ShopItem();
 		item.setUser_uid(getCurrentUser().getUSER_ID());
-		mv.addObject("shopList", salerAnalysisSev.queryAllProduct(item));
+		mv.addObject("shopList", salerAnalysisSev.getAllShop(item));
 		mv.setViewName("busi/task/ShoptaskList");
 		return mv;
 	}

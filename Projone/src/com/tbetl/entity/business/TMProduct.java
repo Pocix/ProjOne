@@ -5,6 +5,8 @@
  */
 package com.tbetl.entity.business;
 
+import java.util.Date;
+
 /**
  * <code>{@link TMProduct}</code>
  *
@@ -18,8 +20,14 @@ public class TMProduct{
 	private String uid;
 	private String name;
 	private String pid;
-	private String createdate;
+	private Date createdate;
 	private String remark;
+	private String year;
+	private String month;
+	private String day;
+	private String hour;
+	private String minutes;
+	private String second;
 	/** 销售价 */
 	private String price;
 	/** 促销价*/
@@ -57,14 +65,14 @@ public class TMProduct{
 	/**
 	 * @return the createdate
 	 */
-	public String getCreatedate() {
+	public Date getCreatedate() {
 		return createdate;
 	}
 
 	/**
 	 * @param createdate the createdate to set
 	 */
-	public void setCreatedate(String createdate) {
+	public void setCreatedate(Date createdate) {
 		this.createdate = createdate;
 	}
 
@@ -198,7 +206,7 @@ public class TMProduct{
 		return postageToggleCount;
 	}
 
-	public void setPostageToggleCont(String postageToggleCount) {
+	public void setPostageToggleCount(String postageToggleCount) {
 		this.postageToggleCount = postageToggleCount;
 	}
 
@@ -232,5 +240,53 @@ public class TMProduct{
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
+
+	public String getHour() {
+		return hour;
+	}
+
+	public void setHour(String hour) {
+		this.hour = hour;
+	}
+
+	public String getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(String minutes) {
+		this.minutes = minutes;
+	}
+
+	public String getSecond() {
+		return second;
+	}
+
+	public void setSecond(String second) {
+		this.second = second;
 	}
 }
