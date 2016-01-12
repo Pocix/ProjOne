@@ -21,6 +21,12 @@
 		<result column="TRADECOUNTFORD" property="tradeCountForD"/>
 		<result column="EMSTOCK" property="emStock"/>
 		<result column="URL" property="url"/>
+		<result column="YEAR" property="year"/>
+		<result column="MONTH" property="month"/>
+		<result column="DAY" property="day"/>
+		<result column="HOUR" property="hour"/>
+		<result column="MINUTES" property="minutes"/>
+		<result column="SECOND" property="second"/>
 	</resultMap>
 	
 	<insert id="saveItem" parameterType="TMProduct">
@@ -42,6 +48,12 @@
 			<if test="tradeCountForD != null">tradeCountForD,</if>
 			<if test="emStock != null">emStock,</if>
 			<if test="url != null">url,</if>
+			<if test="year != null">year,</if>
+			<if test="month != null">month,</if>
+			<if test="day != null">day,</if>
+			<if test="hour != null">hour,</if>
+			<if test="minutes != null">minutes,</if>
+			<if test="second != null">second,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="uid != null">#{uid},</if>
@@ -60,14 +72,33 @@
 			<if test="tradeCountForD != null">#{tradeCountForD},</if>
 			<if test="emStock != null">#{emStock},</if>
 			<if test="url != null">#{url},</if>
+			<if test="year != null">#{year},</if>
+			<if test="month != null">#{month},</if>
+			<if test="day != null">#{day},</if>
+			<if test="hour != null">#{hour},</if>
+			<if test="minutes != null">#{minutes},</if>
+			<if test="second != null">#{second},</if>
 		</trim>
 	</insert>
 	
-	<update id="updInitStatus" parameterType="ShopItem">
-		update b_shop set 
-			is_init=#{is_init}
-		where is_init=0
-	</update>
+	<select id="queryAllProduct" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select d.day,sum(d.tradecountform) trcount from b_shop s,b_shop_item i,b_pro_detail d
+		where s.UID = i.P_UID
+			and i.UID = d.PID
+			<if test="user_uid != null">
+		  	and	s.user_uid = #{user_uid} 
+			</if>
+			<if test="uid != null">
+		  	and	s.uid = #{uid} 
+			</if>
+			<if test="year != null">
+		  	and	s.year = #{year} 
+			</if>
+			<if test="month != null">
+		  	and	s.month = #{month} 
+			</if>
+			group by d.day
+	</select>
 	<!-- ================================================================================================== -->
 	
 </mapper>
