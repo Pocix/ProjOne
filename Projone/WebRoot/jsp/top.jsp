@@ -34,4 +34,4 @@
 		<!--引入弹窗组件end-->
 		
 		<script type="text/javascript" src="js/jquery.tips.js"></script>
-		<script type="text/javascript" src="js/echarts/echarts-all.js"></script>
+		<script type="text/javascript" src="js/echarts/echarts.js"></script>
