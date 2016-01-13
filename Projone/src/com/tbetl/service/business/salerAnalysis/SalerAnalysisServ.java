@@ -6,6 +6,7 @@
 package com.tbetl.service.business.salerAnalysis;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -41,9 +42,9 @@ public class SalerAnalysisServ extends AbstractService{
 		dao.update("ShopItemMapper.updStatus", item);
 	}
 	
-	public List<ShopItem> queryAllProduct(ShopItem item){
+	public List<ShopItem> queryAllProduct(Map map){
 		try {
-			return (List<ShopItem>) dao.findForList("TMProductMapper.getAllShopItem", item);
+			return (List<ShopItem>) dao.findForList("TMProductMapper.getAllShopItem", map);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
