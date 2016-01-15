@@ -1,6 +1,8 @@
 package com.tbetl.controller.base;
 
 
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -61,6 +63,10 @@ public class BaseController {
 	public Page getPage(){
 		
 		return new Page();
+	}
+	
+	public Calendar getCalendar(){
+		return Calendar.getInstance();
 	}
 	
 	public User getCurrentUser(){
