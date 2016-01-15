@@ -5,10 +5,14 @@
  */
 package com.tbetl.controller.business.salerAnalysis;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.quartz.SchedulerException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +22,6 @@ import com.tbetl.controller.base.BaseController;
 import com.tbetl.entity.RetObj;
 import com.tbetl.entity.business.ShopItem;
 import com.tbetl.service.business.salerAnalysis.SalerAnalysisServ;
-import com.tbetl.util.PageData;
 
 /**
  * <code>{@link SalerAnalyseCtr}</code>
@@ -40,6 +43,12 @@ public class SalerAnalyseCtr extends BaseController{
 		ShopItem item = new ShopItem();
 		item.setUser_uid(getCurrentUser().getUSER_ID());
 		mv.addObject("shopList", salerAnalysisSev.getAllShop(item));
+		Map param = new HashMap<String, String>();
+		param.put("user_uid", getCurrentUser().getUSER_ID());
+		param.put("year", getCalendar().get(Calendar.YEAR));
+		mv.addObject("cur_sales_y", salerAnalysisSev.queryAllProduct(param));
+		param.put("month", getCalendar().get(Calendar.MONTH)+1);
+		mv.addObject("cur_sales_m", salerAnalysisSev.queryAllProduct(param));
 		mv.setViewName("busi/task/ShoptaskList");
 		return mv;
 	}
