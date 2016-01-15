@@ -82,7 +82,12 @@
 	</insert>
 	
 	<select id="queryAllProduct" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select d.day,sum(d.tradecountform) trcount from b_shop s,b_shop_item i,b_pro_detail d
+		select 
+		<choose>
+			<when test="month != null"> d.day as pkey,</when>
+			<otherwise>d.month as pkey,</otherwise>
+		</choose>
+		sum(d.tradecountform) as pvalue from b_shop s,b_shop_item i,b_pro_detail d
 		where s.UID = i.P_UID
 			and i.UID = d.PID
 			<if test="user_uid != null">
@@ -92,12 +97,16 @@
 		  	and	s.uid = #{uid} 
 			</if>
 			<if test="year != null">
-		  	and	s.year = #{year} 
+		  	and	d.year = #{year} 
 			</if>
 			<if test="month != null">
-		  	and	s.month = #{month} 
+		  	and	d.month = #{month} 
 			</if>
-			group by d.day
+			group by 
+			<if test="month != null">
+		  	d.month,
+			</if>
+			d.day
 	</select>
 	<!-- ================================================================================================== -->
 	
