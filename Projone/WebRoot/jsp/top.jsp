@@ -35,3 +35,4 @@
 		
 		<script type="text/javascript" src="js/jquery.tips.js"></script>
 		<script type="text/javascript" src="js/echarts/echarts.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
