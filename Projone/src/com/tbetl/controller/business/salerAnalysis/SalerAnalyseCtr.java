@@ -8,6 +8,7 @@ package com.tbetl.controller.business.salerAnalysis;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -21,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tbetl.controller.base.BaseController;
 import com.tbetl.entity.RetObj;
 import com.tbetl.entity.business.ShopItem;
+import com.tbetl.entity.system.Menu;
 import com.tbetl.service.business.salerAnalysis.SalerAnalysisServ;
+import com.tbetl.util.PageData;
 
 /**
  * <code>{@link SalerAnalyseCtr}</code>
@@ -47,10 +50,27 @@ public class SalerAnalyseCtr extends BaseController{
 		param.put("user_uid", getCurrentUser().getUSER_ID());
 		param.put("year", getCalendar().get(Calendar.YEAR));
 		mv.addObject("cur_sales_y", salerAnalysisSev.queryAllProduct(param));
-		param.put("month", getCalendar().get(Calendar.MONTH)+1);
-		mv.addObject("cur_sales_m", salerAnalysisSev.queryAllProduct(param));
 		mv.setViewName("busi/task/ShoptaskList");
 		return mv;
+	}
+	
+	@RequestMapping(value="/getMonthPro")
+	@ResponseBody
+	public RetObj getMonthPro(HttpServletRequest request, String year, String month){
+		RetObj retObj = new RetObj();
+		retObj.setFlag(false);
+		try {
+			Map param = new HashMap<String, String>();
+			param.put("user_uid", getCurrentUser().getUSER_ID());
+			param.put("year", year);
+			param.put("month", month);
+			retObj.setObj(salerAnalysisSev.queryAllProduct(param));
+		} catch (Exception e) {
+			retObj.setMsg("失败！");
+			return retObj;
+		}
+		retObj.setFlag(true);
+		return retObj;
 	}
 	
 	@RequestMapping(value="/updStatus")
@@ -75,5 +95,26 @@ public class SalerAnalyseCtr extends BaseController{
 		}
 		retObj.setFlag(true);
 		return retObj;
+	}
+	
+	/**
+	 * 请求新增菜单页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/toAddTask")
+	public ModelAndView toAdd()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		mv.setViewName("busi/task/shoptask_add");
+		return mv;
+	}
+	
+	@RequestMapping(value="/addTask")
+	public ModelAndView addTask(ShopItem item){
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("save_result");
+		return mv;
 	}
 }
