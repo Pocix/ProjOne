@@ -14,11 +14,39 @@
 	<script type="text/javascript">
 		$(function(){
 			drawYearchar(echarts);
-			drawMonthchar(echarts);
 		});
-		 
+		
+		function getMonth(param,ec) {
+			showWaitMsg();
+			var month_p = param.dataIndex+1;
+			var year_p = new Date().getFullYear();
+			$.ajax({
+				type : "POST",
+				async : false,
+				dataType : "JSON",
+				cache : false,
+				url : "${basePath}saler/getMonthPro.do",
+				data : {
+					year : year_p,
+					month : month_p
+				},
+				success : function(data) {
+					hideWaitMsg();
+					if (data.flag) {
+						drawMonthchar(ec,data.obj);
+					} else {
+						alert(data.msg);
+					}
+
+				}//end-callback
+			});//end-ajax
+		}
+		
 		function drawYearchar(ec){
 			var myChart = ec.init(document.getElementById('yearchart'));
+			myChart.on('click',function(param){
+				getMonth(param,ec);
+			});
 			var xaxisdata_y = getMonthArr();
 			var monthData = ${cur_sales_y};
 			myChart.setOption({
@@ -40,7 +68,7 @@
 			    yAxis : [{type : 'value',axisLabel : {formatter: '{value}件'}}],
 			    series : [{
 			            name:'数量',
-			            type:'line',
+			            type:'bar',
 			            data:monthData,
 			            markPoint : {
 			                data : [
@@ -57,10 +85,9 @@
 			});
 		}
 		
-		function drawMonthchar(ec){
+		function drawMonthchar(ec,dayData){
 			var myChart = ec.init(document.getElementById('monthchart'));
 			var xaxisdata_m = getDayArr();
-			var dayData = ${cur_sales_m};
 			myChart.setOption({
 			    title : {text: 'XX情况',subtext: '本月'},
 			    tooltip : {trigger: 'axis'},
@@ -80,7 +107,7 @@
 			    yAxis : [{type : 'value',axisLabel : {formatter: '{value}件'}}],
 			    series : [{
 			            name:'数量',
-			            type:'line',
+			            type:'bar',
 			            data:dayData,
 			            markPoint : {
 			                data : [
@@ -125,13 +152,13 @@
 			<thead>
 				<tr>
 					<th style="width: 20xp">id</th>
-					<th>name</th>
-					<th>状态</th>
+					<th>名称</th>
+					<th>是否启用</th>
 					<th>开始日期</th>
 					<th>截止日期</th>
-					<th>同步</th>
+					<th>是否同步</th>
 					<th>是否已初始化</th>
-					<th>URL</th>
+					<th>链接</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -176,11 +203,10 @@
 	</form>
 	<div class="page-header position-relative">
 		<table style="width:100%;">
-			<tr>
+			<tr><a class="btn btn-small btn-success" onclick="addTask();">新增</a>
 			</tr>
 		</table>
 		</div>
-
 </div>
 </div><!--/row-->
 
@@ -231,6 +257,25 @@ $(window.parent.hangge());
 		window.parent.hangge();
 		$('.datagrid-mask').remove();
 		$('.datagrid-mask-msg').remove();
+	}
+	
+	//新增
+	function addTask(){
+		 window.parent.jzts();
+		 var diag = new top.Dialog();
+		 diag.Drag=true;
+		 diag.Title ="新增任务";
+		 diag.URL = '${basePath}saler/toAddTask.do';
+		 diag.Width = 420;
+		 diag.Height = 300;
+		 diag.CancelEvent = function(){ //关闭事件
+			if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+				window.parent.jzts(); 
+				setTimeout("location.reload()",100);
+			}
+			diag.close();
+		 };
+		 diag.show();
 	}
 </script>
 </body>
